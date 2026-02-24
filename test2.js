@@ -6,6 +6,8 @@ import { Trend } from 'k6/metrics';
 //trend
 const pizzaResponseTime = new Trend('pizza_response_time') // track response time for API requests
 
+const pizzaRequestTime = new Trend('pizza_request_time') // track total request time for API requests
+
 export const options = {
 
     stages : [
@@ -24,6 +26,7 @@ export const options = {
         // 'http_req_duration{name:api}' : ['p(95) < 300'], // For API requests, 95% should be below 300ms
         // 'http_req_failed{name:api}' : ['rate < 0.1'], // Less than 10% of requests should fail
         'pizza_response_time' : ['p(95) < 300'], // Custom threshold for API response time
+        'pizza_request_time' : ['p(95) < 500'], // Custom threshold for API request time
     
     }
 }
@@ -34,6 +37,7 @@ export default function() {
 
 
     pizzaResponseTime.add(response.timings.waiting); // Add the waiting time to the custom trend metric
+    pizzaRequestTime.add(response.timings.duration); // Add the total request time to the custom trend metric
 
     // Add checks to validate the response
     check(response, {
