@@ -17,6 +17,8 @@ export const options = {
         http_req_duration : ['p(95) < 400'], // 95% of requests should be below 400ms
         http_req_failed : ['rate < 0.1'], // Less than 10% of requests should fail
         checks : ['rate > 0.9'], // Ensure that at least 90% of checks pass
+        // 'http_req_duration{name:api}' : ['p(95) < 300'], // For API requests, 95% should be below 300ms
+        // 'http_req_failed{name:api}' : ['rate < 0.1'], // Less than 10% of requests should fail
     }
 }
 
@@ -31,6 +33,9 @@ export default function() {
         'contains pizza': (r) => r.body.includes('pizza'),
     })
 
+    // http.get("https://quickpizza.grafana.com/api/pizza",{
+    //     tags : { name : 'api' }
+    // });
 
     sleep(1);
 }
