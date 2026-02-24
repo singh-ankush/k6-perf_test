@@ -16,13 +16,13 @@ export const options = {
     thresholds : {
         http_req_duration : ['p(95) < 400'], // 95% of requests should be below 400ms
         http_req_failed : ['rate < 0.1'], // Less than 10% of requests should fail
-        checks : ['rate > 0.9'] // Ensure that at least 90% of checks pass
+        checks : ['rate > 0.9'], // Ensure that at least 90% of checks pass
     }
 }
 
 export default function() {
 
-    http.get('https://quickpizza.grafana.com/');
+    const response = http.get('https://quickpizza.grafana.com/');
 
 
     // Add checks to validate the response
